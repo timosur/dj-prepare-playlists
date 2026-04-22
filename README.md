@@ -177,10 +177,3 @@ Event-specific playlists include **event name and date** in their description (e
 ### Skills
 
 Reusable agent workflows are packaged as **Copilot skills** (created via `/create-skill`), living in this repo for easy invocation from VS Code / GitHub Copilot.
-
-## Roadmap
-
-- [x] Spotify MCP Server (29 tools)
-- [x] Tidal MCP Server (19 tools, Python, using python-tidal)
-- [x] Copilot skills: `/sort-playlist-by-genre`, `/build-master-playlists`, `/sync-to-tidal`
-- [ ] Cross-platform playlist sync (Spotify ↔ Tidal via ISRC matching)
