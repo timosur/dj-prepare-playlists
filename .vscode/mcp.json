@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "spotify": {
+      "command": "node",
+      "args": ["${workspaceFolder}/spotify-mcp/build/index.js"],
+      "type": "stdio"
+    },
+    "tidal": {
+      "command": "${workspaceFolder}/tidal-mcp/.venv/bin/python",
+      "args": ["-m", "tidal_mcp.server"],
+      "cwd": "${workspaceFolder}/tidal-mcp",
+      "type": "stdio"
+    }
+  }
+}
