@@ -60,9 +60,12 @@ const searchSpotify: tool<{
           .map((track, i) => {
             const artists = track.artists.map((a) => a.name).join(', ');
             const duration = formatDuration(track.duration_ms);
+            const isrc = (track as any).external_ids?.isrc
+              ? ` | ISRC: ${(track as any).external_ids.isrc}`
+              : '';
             return `${i + 1}. "${
               track.name
-            }" by ${artists} (${duration}) - ID: ${track.id}`;
+            }" by ${artists} (${duration}) - ID: ${track.id}${isrc}`;
           })
           .join('\n');
       } else if (type === 'album' && results.albums) {
@@ -306,7 +309,10 @@ const getPlaylistTracks: tool<{
         if (isTrack(track)) {
           const artists = track.artists.map((a) => a.name).join(', ');
           const duration = formatDuration(track.duration_ms);
-          return `${offset + i + 1}. "${track.name}" by ${artists} (${duration}) - ID: ${track.id}`;
+          const isrc = (track as any).external_ids?.isrc
+            ? ` | ISRC: ${(track as any).external_ids.isrc}`
+            : '';
+          return `${offset + i + 1}. "${track.name}" by ${artists} (${duration}) - ID: ${track.id}${isrc}`;
         }
 
         return `${offset + i + 1}. Unknown item`;

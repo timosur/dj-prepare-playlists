@@ -1,0 +1,19 @@
+[project]
+name = "tidal-mcp-server"
+version = "1.0.0"
+description = "A Model Context Protocol server for Tidal integration"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+    "tidalapi>=0.8.1",
+]
+
+[project.scripts]
+tidal-mcp = "tidal_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tidal_mcp"]

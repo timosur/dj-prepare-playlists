@@ -1,4 +1,4 @@
-# DJ Playlist Prepare
+# DJ Prepare Playlists
 
 A collection of **MCP servers and skills** for AI-assisted DJ set preparation. Designed to be used with coding agents like GitHub Copilot or Claude Code.
 
@@ -30,13 +30,36 @@ Across all events, we build and maintain **central genre playlists** that aggreg
 
 ### How It Works
 
-This is **not** a standalone CLI app. It's a set of MCP (Model Context Protocol) servers that expose Spotify (and eventually Tidal) APIs as tools to AI agents. The actual playlist sorting, genre classification, and organization logic is driven by the AI agent in conversation — using these tools to read playlists, analyze tracks, and create/populate new playlists.
+This is **not** a standalone CLI app. It's a set of MCP (Model Context Protocol) servers that expose Spotify and Tidal APIs as tools to AI agents. The actual playlist sorting, genre classification, and organization logic is driven by the AI agent in conversation — using these tools to read playlists, analyze tracks, and create/populate new playlists.
+
+## Project Structure
+
+```
+dj-playlist-prepare/
+├── spotify-mcp/          # Spotify MCP server (TypeScript/Node.js)
+│   ├── src/
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── spotify-config.example.json
+├── tidal-mcp/            # Tidal MCP server (Python)
+│   ├── tidal_mcp/
+│   │   ├── server.py
+│   │   ├── session.py
+│   │   ├── auth.py
+│   │   └── tools/
+│   │       ├── search.py
+│   │       ├── playlists.py
+│   │       ├── albums.py
+│   │       └── playback.py
+│   └── pyproject.toml
+└── README.md
+```
 
 ## Current State
 
-### Spotify MCP Server (implemented)
+### Spotify MCP Server (`spotify-mcp/`)
 
-An MCP server exposing **29 tools** for full Spotify control:
+A TypeScript MCP server exposing **29 tools** for full Spotify control:
 
 | Category | Tools |
 |---|---|
@@ -46,61 +69,38 @@ An MCP server exposing **29 tools** for full Spotify control:
 | **Playback Control** | Play, pause, skip, queue, volume, devices |
 | **Library** | Saved tracks, saved albums, recently played |
 
-### Tidal MCP Server (not yet implemented)
+### Tidal MCP Server (`tidal-mcp/`)
 
-Planned: a separate **Python MCP server** using [python-tidal](https://github.com/EbbLabs/python-tidal) for creating and managing playlists on the DJ platform.
+A Python MCP server using [python-tidal](https://github.com/EbbLabs/python-tidal) exposing **19 tools**:
+
+| Category | Tools |
+|---|---|
+| **Search & Discovery** | Search tracks/albums/artists/playlists, track details, artist details |
+| **Playlist Management** | Create, update, get, list, add/remove tracks, add by ISRC, merge playlists |
+| **Albums** | Get album details, album tracks, save/remove albums |
+| **Favorites** | Get/add/remove favorite tracks, artists, albums |
 
 ## Setup
 
-### Prerequisites
+### Spotify MCP Server
+
+#### Prerequisites
 
 - Node.js
 - A [Spotify Developer App](https://developer.spotify.com/dashboard) (Client ID & Secret)
 
-### 1. Install Dependencies
+#### Install & Configure
 
 ```bash
+cd spotify-mcp
 npm install
-```
-
-### 2. Configure Spotify
-
-```bash
 cp spotify-config.example.json spotify-config.json
-```
-
-Edit `spotify-config.json` and fill in your `clientId` and `clientSecret`.
-
-### 3. Authenticate
-
-```bash
-npm run auth
-```
-
-This opens a browser for Spotify OAuth login. Tokens are saved to `spotify-config.json` and auto-refresh.
-
-### 4. Build
-
-```bash
+# Edit spotify-config.json with your clientId and clientSecret
+npm run auth    # Opens browser for Spotify OAuth login
 npm run build
 ```
 
-### 5. Connect to an MCP Client
-
-Add to your MCP client config (e.g., Claude Desktop, VS Code Copilot):
-
-```json
-{
-  "mcpServers": {
-    "spotify": {
-      "command": "node",
-      "args": ["/absolute/path/to/build/index.js"]
-    }
-  }
-}
-```
-
-## Scripts
+#### Scripts
 
 | Script | Description |
 |---|---|
@@ -110,11 +110,47 @@ Add to your MCP client config (e.g., Claude Desktop, VS Code Copilot):
 | `npm run lint:fix` | Auto-fix lint issues |
 | `npm run typecheck` | Type-check without emitting |
 
+### Tidal MCP Server
+
+#### Prerequisites
+
+- Python 3.11+
+- A Tidal account (HiFi or HiFi Plus)
+
+#### Install & Authenticate
+
+```bash
+cd tidal-mcp
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+python -m tidal_mcp.auth   # Prints a link — open it to log in
+```
+
+### Connect to an MCP Client
+
+Add both servers to your MCP client config (e.g., Claude Desktop, VS Code Copilot):
+
+```json
+{
+  "mcpServers": {
+    "spotify": {
+      "command": "node",
+      "args": ["/absolute/path/to/spotify-mcp/build/index.js"]
+    },
+    "tidal": {
+      "command": "/absolute/path/to/tidal-mcp/.venv/bin/python",
+      "args": ["-m", "tidal_mcp.server"]
+    }
+  }
+}
+```
+
 ## Design Decisions
 
 ### Tidal Integration
 
-The Tidal MCP server will be a **separate Python-based MCP server** using [python-tidal](https://github.com/EbbLabs/python-tidal). Since the Spotify server is TypeScript and python-tidal is Python, each platform gets its own MCP server — both registered in the client config side by side.
+The Tidal MCP server is a **separate Python-based MCP server** using [python-tidal](https://github.com/EbbLabs/python-tidal). Since the Spotify server is TypeScript and python-tidal is Python, each platform gets its own MCP server — both registered in the client config side by side.
 
 ### Genre Classification
 
@@ -145,6 +181,6 @@ Reusable agent workflows are packaged as **Copilot skills** (created via `/creat
 ## Roadmap
 
 - [x] Spotify MCP Server (29 tools)
-- [ ] Tidal MCP Server (Python, using python-tidal)
-- [ ] Copilot skills for common workflows (sort by genre, sync to Tidal, build master playlists)
-- [ ] Cross-platform playlist sync (Spotify → Tidal)
+- [x] Tidal MCP Server (19 tools, Python, using python-tidal)
+- [x] Copilot skills: `/sort-playlist-by-genre`, `/build-master-playlists`, `/sync-to-tidal`
+- [ ] Cross-platform playlist sync (Spotify ↔ Tidal via ISRC matching)

@@ -3,6 +3,10 @@ node_modules
 .env
 package-lock.json
 spotify-config.json
+tidal-session.json
 build
 dist
+__pycache__
+*.pyc
+.venv
 .DS_Store
