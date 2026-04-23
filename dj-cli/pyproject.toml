@@ -9,6 +9,8 @@ dependencies = [
     "typer>=0.12.0",
     "rich>=13.0.0",
     "requests>=2.31.0",
+    "mutagen>=1.47.0",
+    "thefuzz[speedup]>=0.22.0",
 ]
 
 [project.scripts]

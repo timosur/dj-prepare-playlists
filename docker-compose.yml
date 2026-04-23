@@ -1,0 +1,12 @@
+services:
+  dj:
+    build: ./dj-cli
+    volumes:
+      - ./data:/data
+      - ./dj-cli/dj_cli:/app/dj_cli
+      - ./spotify-mcp/spotify-config.json:/app/../spotify-mcp/spotify-config.json
+      - /Volumes/Music:/music:ro
+      - ~/Music/Library:/library
+    working_dir: /app
+    environment:
+      - PYTHONUNBUFFERED=1
