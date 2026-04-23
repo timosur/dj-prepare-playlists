@@ -437,7 +437,14 @@ def match(
         missing_file = input_file.with_suffix(".missing.txt")
         lines = [f"{t.display_name()} (ISRC: {t.isrc or 'none'})" for t in missing]
         missing_file.write_text("\n".join(lines))
+
+        # Also write ISRC-only file
+        isrc_file = input_file.with_suffix(".missing-isrcs.txt")
+        isrcs = [t.isrc for t in missing if t.isrc]
+        isrc_file.write_text("\n".join(isrcs))
+
         console.print(f"[yellow]{len(missing)} unmatched tracks written to {missing_file}[/yellow]")
+        console.print(f"[yellow]{len(isrcs)} ISRCs written to {isrc_file}[/yellow]")
 
 
 @app.command(name="analyze-mood")

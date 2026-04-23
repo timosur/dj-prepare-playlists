@@ -94,7 +94,7 @@ Matches Spotify tracks to local files using three strategies:
 2. **Artist + Title** — normalized exact match
 3. **Fuzzy** — token sort ratio ≥ 85%
 
-Report the match results table. If many tracks are unmatched, suggest the user check their library or download missing tracks.
+Report the match results table. If many tracks are unmatched, suggest the user check their library or buy missing tracks.
 
 ### Step 7: Analyze Mood (essentia)
 
