@@ -134,8 +134,8 @@ Every state-changing action funnels through `services/audit.record(...)` and is 
 
 ## 9. References
 
-- [README.md](README.md) — install, CLI commands, full pipeline walkthrough.
-- [DESIGN.md](DESIGN.md) — visual design system.
-- [plans/ui/README.md](plans/ui/README.md) — v1 plan index.
-- [plans/ui/STATUS.md](plans/ui/STATUS.md) — shipped vs. planned.
-- [.github/skills/prepare-event/SKILL.md](.github/skills/prepare-event/SKILL.md) — Copilot-driven CLI workflow.
+- [README.md](../README.md) — install, CLI commands, full pipeline walkthrough.
+- [DESIGN.md](../DESIGN.md) — visual design system.
+- [plans/ui/README.md](../plans/ui/README.md) — v1 plan index.
+- [plans/ui/STATUS.md](../plans/ui/STATUS.md) — shipped vs. planned.
+- [.github/skills/prepare-event/SKILL.md](../.github/skills/prepare-event/SKILL.md) — Copilot-driven CLI workflow.

@@ -51,7 +51,7 @@ Postgres is the **single source of truth** shared by the CLI and the API. Both t
 
 Python package built with `uv`/`pip`. Provides the `crate` CLI and is the canonical home for domain logic — both the CLI commands and the FastAPI handlers import these modules.
 
-Key modules ([cratekeeper-cli/cratekeeper](cratekeeper-cli/cratekeeper/)):
+Key modules ([cratekeeper-cli/cratekeeper](../cratekeeper-cli/cratekeeper/)):
 
 | Module | Responsibility |
 |--------|----------------|
@@ -71,7 +71,7 @@ Key modules ([cratekeeper-cli/cratekeeper](cratekeeper-cli/cratekeeper/)):
 
 ### 2.2 `cratekeeper-api/` — FastAPI Backend
 
-[cratekeeper-api/cratekeeper_api](cratekeeper-api/cratekeeper_api/) — FastAPI app with an in-process asyncio job engine and SSE.
+[cratekeeper-api/cratekeeper_api](../cratekeeper-api/cratekeeper_api/) — FastAPI app with an in-process asyncio job engine and SSE.
 
 ```
 cratekeeper_api/
@@ -121,25 +121,25 @@ cratekeeper_api/
 
 ### 2.3 `cratekeeper-web/` — React Frontend
 
-[cratekeeper-web/src](cratekeeper-web/src/) — Vite + React 18 + TypeScript + Tailwind + TanStack Router/Query.
+[cratekeeper-web/src](../cratekeeper-web/src/) — Vite + React 18 + TypeScript + Tailwind + TanStack Router/Query.
 
 Top-level views:
 
 | Route | Component | Purpose |
 |-------|-----------|---------|
-| `/` | [Dashboard.tsx](cratekeeper-web/src/Dashboard.tsx) | Card grid of active events. |
-| `/events/$id` | [EventDetail.tsx](cratekeeper-web/src/EventDetail.tsx) | 12-step rail + per-step panels (Analyze, Match, Review, Sync, Build…). |
-| `/library` | [MasterLibrary.tsx](cratekeeper-web/src/MasterLibrary.tsx) | Global library stats. |
-| `/audit` | [AuditLog.tsx](cratekeeper-web/src/AuditLog.tsx) | Filterable audit timeline. |
-| `/settings` | [Settings.tsx](cratekeeper-web/src/Settings.tsx) | Auth, fs-roots, Anthropic, genre bucket editor. |
+| `/` | [Dashboard.tsx](../cratekeeper-web/src/Dashboard.tsx) | Card grid of active events. |
+| `/events/$id` | [EventDetail.tsx](../cratekeeper-web/src/EventDetail.tsx) | 12-step rail + per-step panels (Analyze, Match, Review, Sync, Build…). |
+| `/library` | [MasterLibrary.tsx](../cratekeeper-web/src/MasterLibrary.tsx) | Global library stats. |
+| `/audit` | [AuditLog.tsx](../cratekeeper-web/src/AuditLog.tsx) | Filterable audit timeline. |
+| `/settings` | [Settings.tsx](../cratekeeper-web/src/Settings.tsx) | Auth, fs-roots, Anthropic, genre bucket editor. |
 
-**Data:** all server state via TanStack Query against the FastAPI bearer-protected endpoints. Live job updates via SSE ([sse.ts](cratekeeper-web/src/sse.ts)) feeding into the same query cache.
+**Data:** all server state via TanStack Query against the FastAPI bearer-protected endpoints. Live job updates via SSE ([sse.ts](../cratekeeper-web/src/sse.ts)) feeding into the same query cache.
 
-**Design:** dark, Spotify-adjacent. Full system in [DESIGN.md](DESIGN.md).
+**Design:** dark, Spotify-adjacent. Full system in [DESIGN.md](../DESIGN.md).
 
 ### 2.4 Postgres (Docker)
 
-`postgres:16-alpine` defined in [docker-compose.yml](docker-compose.yml). Single database `djlib`. Schema authority: the CLI owns `tracks`; the API extends with `events`, `event_tracks`, `jobs`, `checkpoints`, `settings`, `audit_log`, `tag_backups`, `playlist_sync_runs`, etc.
+`postgres:16-alpine` defined in [docker-compose.yml](../docker-compose.yml). Single database `djlib`. Schema authority: the CLI owns `tracks`; the API extends with `events`, `event_tracks`, `jobs`, `checkpoints`, `settings`, `audit_log`, `tag_backups`, `playlist_sync_runs`, etc.
 
 ### 2.5 MCP Servers (CLI Workflow Only)
 
@@ -203,7 +203,7 @@ Top-level views:
 
 ## 7. Deployment
 
-[docker-compose.yml](docker-compose.yml) defines four services:
+[docker-compose.yml](../docker-compose.yml) defines four services:
 
 | Service | Image / Build | Port |
 |---------|---------------|------|
@@ -219,7 +219,7 @@ For development, Postgres runs in Docker while the API and the frontend run nati
 ## 8. Testing
 
 - **Backend:** `uv run pytest -q` — uses an ephemeral Docker Postgres; mocks Spotify/Tidal/Anthropic via `CRATEKEEPER_TEST_MODE=true`. Coverage spans events, jobs, SSE, dependencies, hardening (audit, dry-run, undo).
-- **Frontend:** `npm run build` (zero TS errors gate) plus Playwright smoke and pipeline specs in [cratekeeper-web/e2e/](cratekeeper-web/e2e/).
+- **Frontend:** `npm run build` (zero TS errors gate) plus Playwright smoke and pipeline specs in [cratekeeper-web/e2e/](../cratekeeper-web/e2e/).
 - **CLI:** exercised end-to-end via the `prepare-event` skill against `data/wedding-test.json` fixtures.
 
 ## 9. Known Gaps
@@ -231,11 +231,11 @@ For development, Postgres runs in Docker while the API and the frontend run nati
 
 ## 10. References
 
-- [README.md](README.md) — install + CLI walkthrough.
+- [README.md](../README.md) — install + CLI walkthrough.
 - [PRD.md](PRD.md) — product requirements.
-- [DESIGN.md](DESIGN.md) — visual design system.
-- [plans/ui/01-foundations.md](plans/ui/01-foundations.md) — architecture, data model, API contract decisions.
-- [plans/ui/02-backend.md](plans/ui/02-backend.md) — backend implementation plan.
-- [plans/ui/03-frontend.md](plans/ui/03-frontend.md) — frontend implementation plan.
-- [plans/ui/04-hardening.md](plans/ui/04-hardening.md) — reliability + safety.
-- [plans/ui/STATUS.md](plans/ui/STATUS.md) — shipped vs. planned.
+- [DESIGN.md](../DESIGN.md) — visual design system.
+- [plans/ui/01-foundations.md](../plans/ui/01-foundations.md) — architecture, data model, API contract decisions.
+- [plans/ui/02-backend.md](../plans/ui/02-backend.md) — backend implementation plan.
+- [plans/ui/03-frontend.md](../plans/ui/03-frontend.md) — frontend implementation plan.
+- [plans/ui/04-hardening.md](../plans/ui/04-hardening.md) — reliability + safety.
+- [plans/ui/STATUS.md](../plans/ui/STATUS.md) — shipped vs. planned.
