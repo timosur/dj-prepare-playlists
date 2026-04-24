@@ -8,8 +8,8 @@ dist
 __pycache__
 *.pyc
 .venv
-.venv-essentia
 .DS_Store
 data/
 *.md
 !README.md
+!.claude/**/*.md
