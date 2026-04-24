@@ -31,5 +31,33 @@ services:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=postgresql://dj:dj@db:5432/djlib
 
+  api:
+    build: ./cratekeeper-api
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8765:8765"
+    volumes:
+      - ./cratekeeper-cli/cratekeeper:/cratekeeper-cli/cratekeeper:ro
+      - ./spotify-mcp/spotify-config.json:/spotify-mcp/spotify-config.json:ro
+      - ./tidal-mcp/tidal-session.json:/tidal-mcp/tidal-session.json:ro
+      - ~/.cratekeeper:/root/.cratekeeper
+      - /Volumes/home/Music:/music:ro
+      - ~/Music/Library:/library
+    environment:
+      - CRATEKEEPER_DB_URL=postgresql+psycopg://dj:dj@db:5432/djlib
+      - CRATEKEEPER_FERNET_KEY=${CRATEKEEPER_FERNET_KEY:-}
+      - CRATEKEEPER_API_TOKEN=${CRATEKEEPER_API_TOKEN:-}
+      - CRATEKEEPER_CORS_ORIGINS=http://localhost,http://localhost:5173
+      - PYTHONPATH=/cratekeeper-cli
+
+  web:
+    build: ./cratekeeper-web
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
 volumes:
   pgdata:

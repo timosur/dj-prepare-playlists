@@ -7,7 +7,7 @@ Build the React UI: shell, event workflow, master library management, and settin
 
 ### Work items
 
-1. **Frontend shell** (depends on Milestone 1 API contract): build the React app shell with hybrid UX — dashboard overview + guided event workflow entry. The dashboard lists all active events (each with event name + auto-derived slug, editable); a user can switch between events freely (multi-event concurrent UX). Heavy jobs still serialize in the backend queue. **Tooling, committed**: Vite + React + TypeScript; TanStack Query for server state (fits SSE + polling patterns); TanStack Router or React Router; react-hook-form for forms.
+1. **Frontend shell** (depends on Milestone 1 API contract): build the React app shell with hybrid UX — dashboard overview + guided event workflow entry. The dashboard lists all active events (each with event name + auto-derived slug, editable); a user can switch between events freely (multi-event concurrent UX). Heavy jobs still serialize in the backend queue. **Tooling, committed**: Vite + React + TailwindCSS + TypeScript; TanStack Query for server state (fits SSE + polling patterns); TanStack Router or React Router; react-hook-form for forms.
 
 2. **Event workflow UI** (depends on Milestone 2 backend + shell): step views for Intake, Enrich, Classify, Review, Scan/Match, Analyze, Tagging, Build Event Folder, Spotify/Tidal Event Sync. Add confidence filters and manual bucket overrides.
 

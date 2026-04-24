@@ -1,0 +1,1 @@
+{"root":["./src/analyze.tsx","./src/auditlog.tsx","./src/build.tsx","./src/dashboard.tsx","./src/eventdetail.tsx","./src/genrebucketeditor.tsx","./src/jobprogress.tsx","./src/masterlibrary.tsx","./src/match.tsx","./src/review.tsx","./src/settings.tsx","./src/sync.tsx","./src/api.ts","./src/main.tsx","./src/queryclient.ts","./src/router.tsx","./src/sse.ts"],"version":"5.9.3"}
